@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <%- include ('header_tpl') %>
+    <script src="/bmi_client.js"></script>
+  </head>
+
+  <body>
+    <label for="formGroupExampleInput">Check BMI :</label>
+    <form>
+        <div class="form-group">
+          <input type="text" class="form-control" id="ipt_weight" placeholder="Weight">
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-control" id="ipt_height" placeholder="Height">
+        </div>
+
+        
+        <button type="submit" class="btn btn-primary" id="btn-calculBMI">Calculer BMI</button>
+        
+        
+      </form>
+        
+    </br>
+      <h3 id="resultBMI"></h3>
+
+  </body>
+</html>
