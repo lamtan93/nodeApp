@@ -33,10 +33,16 @@ const path = require('path');
 const app = express();
 const PORT = 8080;
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
+app.use(cors());
+app.options('*', cors());
 
 //Set view's engine
 app.set('view engine', 'ejs'); // extended javascript
 app.use(express.static(path.join(__dirname, 'js_client')));
+app.use(express.static(path.join(__dirname, 'statics')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -45,6 +51,7 @@ const systemInfo = require('./routes/systemInfo');
 const books = require('./routes/books');
 const files = require('./routes/files');
 const users = require('./routes/users');
+const tasks = require('./routes/tasks');
 
 
 
@@ -64,6 +71,7 @@ app.use('/systemInfo', systemInfo);
 app.use('/books', books);
 app.use('/files', files);
 app.use('/users', users);
+app.use('/tasks', tasks);
 
 app.use((req, res)=>{
     const url_prefix = path.join(__dirname);

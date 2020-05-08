@@ -12,23 +12,48 @@ router.get('/bmi_tpl', (req,res)=>{
 router.get('/bmi_calculator', async(req, res)=>{
     let params = req.query;
     let result = '';
-    if(!params.weight || !params.height){
-        res.send('Veuillez compléter les informations !');
+
+    let weightFloat = parseFloat(params.weight);
+    let heightFloat = parseFloat(params.height);
+
+    if( !weightFloat || !heightFloat){
+        res.json({
+            'statut' : 'KO',
+            'data': 'Nhập thông tin giùm cái được không ?',
+            'type': '0'
+        })
     }else{
-        let indiceBmi = params.weight/(params.height*params.height);
-        console.log('indiceBmi' + indiceBmi);
+        let indiceBmi = weightFloat/(heightFloat*heightFloat);
+        
         if(indiceBmi < 18.5){
-            result = 'Ốm';
+            result = {
+                'statut': 'OK',
+                'data': 'Ốm quá ăn nhiều vô dùm cái ! -.-',
+                'type': '1'
+            } 
         }else if(indiceBmi > 18.5 & indiceBmi < 25){
-            result  = 'Bình thường';   
+            result = {
+                'statut': 'OK',
+                'data': 'Bình thường, nhưng cũng đừng chủ quan nhé ! >.^',
+                'type': '2'
+            } 
         }else if(indiceBmi > 25 && indiceBmi < 30){
-            result = 'Béo';    
+            result = {
+                'statut': 'OK',
+                'data': 'Béo như LỢN, giảm cân đi ! >.<',   
+                'type': '3'
+            }
         }else if(indiceBmi > 30){
-            result = 'Béo phì';                
+            result = {
+                'statut': 'OK',
+                'data': 'Béo phì dồi làng nước ơi ! :(',   
+                'type': '4'
+            }                
         }
+        res.json(result);
     }
 
-    res.send(`${result}`);
+    
 });
 
 //Login template
