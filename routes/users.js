@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
+const {insertUser, activateUser} = require('../database/models/User');
+const {sendEmail} = require('../util/mail_util');
 //BMI Template
 router.get('/bmi_tpl', (req,res)=>{
     res.render('bmi_tpl');
@@ -86,6 +87,37 @@ router.post('/login', async(req, res)=>{
             })    
         }
 });
+
+//Register User:
+router.post('/registerUser', async (req, res)=>{
+    let {name, email, password} = req.body;
+    try {
+        await insertUser(name, email, password);
+        res.json({
+            result: 'OK',
+            message: 'Đăng kí user thành công, bạn cẩn mở mail để kích hoạt'
+        })
+    } catch (error) {
+        res.json({
+            result: 'failed',
+            message: `Không thể đăng kí thêm user, lỗi ${error}`
+        })
+    }
+});
+
+//Active user controller
+// 'localhost:8080/users/activeUser?email=&keySecret=
+router.get('/activateUser', async (req, res)=>{
+    let {email, secretKey} = req.query;
+    try {
+        await activateUser(email, secretKey);
+        res.send('<h1 style="color:MediumSeaGreen;">Kích hoạt User thành công</h1>')
+    } catch (error) {
+        res.send(`<h1 style="color:Red;">Không kích hoạt được User </h1>,
+        lỗi: ${error}`)
+    }
+});
+
 
 
 module.exports = router;

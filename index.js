@@ -38,13 +38,13 @@ const cors = require('cors');
 app.use(cors());
 app.options('*', cors());
 
-//Set view's engine
+//Set view's engine - middleware
 app.set('view engine', 'ejs'); // extended javascript
 app.use(express.static(path.join(__dirname, 'js_client')));
 app.use(express.static(path.join(__dirname, 'statics')));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json()); //truyen du lieu JSON
+app.use(bodyParser.urlencoded({extended: true}));// truyen du lieu POST
 
 //Router
 const systemInfo = require('./routes/systemInfo');
